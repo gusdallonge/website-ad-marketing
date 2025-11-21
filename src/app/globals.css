@@ -23,7 +23,7 @@ body {
   }
   100% {
     opacity: 1;
-    transform: scaleX(1);
+    transform: none;
   }
 }
 
@@ -85,7 +85,8 @@ body {
 /* Glass Header */
 .glass-header {
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(100px);
+  backdrop-filter: blur(100px);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1.5rem;
   box-shadow:

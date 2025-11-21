@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <>
       {/* Sticky Header */}
-      <header className="sticky top-6 left-0 right-0 z-50 px-6 mb-6 animate-header">
+      <header className="sticky top-6 left-0 right-0 z-50 px-6 mb-6">
         <div className="glass-header mx-auto max-w-full">
           <div className="flex items-center justify-between px-6 py-4">
             <Image
@@ -44,9 +44,9 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="min-h-[calc(100vh-120px)] flex flex-col">
+      <div className="flex flex-col sm:min-h-[calc(100vh-120px)]">
         {/* Center Content - Taglines */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6 sm:px-8">
+        <div className="flex-1 flex flex-col items-center justify-center px-6 sm:px-8 py-20 sm:py-0">
           <div className="text-center animate-fade-in-1 max-w-4xl">
             <p className="text-base sm:text-lg md:text-xl text-white/50 mb-4 italic" style={{ fontFamily: 'var(--font-instrument)' }}>
               Founders, Business Owners, Consultants:

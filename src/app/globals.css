@@ -151,3 +151,39 @@ body {
   top: 40%;
   right: 30%;
 }
+
+/* Mobile adjustments for blobs */
+@media (max-width: 640px) {
+  .blob {
+    opacity: 0.3;
+  }
+
+  .blob-1 {
+    top: -10%;
+    left: -20%;
+  }
+
+  .blob-2 {
+    bottom: -10%;
+    right: -20%;
+  }
+
+  .blob-3 {
+    top: 30%;
+    right: 50%;
+  }
+}
+
+/* Logo Scroll Animation */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll {
+  animation: scroll 30s linear infinite;
+}

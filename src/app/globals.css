@@ -107,7 +107,12 @@ body {
 .glass-card:hover {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-4px);
+}
+
+@media (min-width: 640px) {
+  .glass-card:hover {
+    transform: translateY(-4px);
+  }
 }
 
 /* Icon Pulse */
@@ -187,4 +192,92 @@ body {
 
 .animate-scroll {
   animation: scroll 30s linear infinite;
+}
+
+/* Hide scrollbar for carousel */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* FloatingStats Animations */
+@keyframes bar-grow {
+  0% {
+    height: 0%;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.animate-bar-grow {
+  animation: bar-grow 0.8s ease-out forwards;
+}
+
+@keyframes circle-draw {
+  0% {
+    stroke-dashoffset: 176;
+  }
+  100% {
+    stroke-dashoffset: 44;
+  }
+}
+
+.animate-circle-draw {
+  animation: circle-draw 1.5s ease-out forwards;
+}
+
+@keyframes path-draw {
+  0% {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+  }
+  100% {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-path-draw {
+  animation: path-draw 2s ease-out forwards;
+}
+
+@keyframes dot-appear {
+  0% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-dot-appear {
+  opacity: 0;
+  animation: dot-appear 0.4s ease-out forwards;
+}
+
+@keyframes star-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+  }
+  70% {
+    transform: scale(1.2) rotate(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-star-pop {
+  opacity: 0;
+  animation: star-pop 0.6s ease-out forwards;
 }

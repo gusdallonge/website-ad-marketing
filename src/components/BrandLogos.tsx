@@ -1,6 +1,7 @@
 "use client"
 
 import Image from "next/image"
+import { useEffect, useRef, useState } from "react"
 
 const logos = [
   { name: "Stripe", src: "/logos/stripe.svg" },
@@ -14,12 +15,38 @@ const logos = [
 ]
 
 export default function BrandLogos() {
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isVisible) {
+            setIsVisible(true)
+          }
+        })
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px"
+      }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current)
+      }
+    }
+  }, [isVisible])
+
   return (
-    <section className="w-full py-6 sm:py-12">
-      <h2 className="text-center text-white/40 text-xs font-medium tracking-widest uppercase mb-4 sm:mb-6">
-        Powered by Industry Leaders
-      </h2>
-      <div className="overflow-hidden">
+    <section ref={sectionRef} className="w-full py-4 sm:py-12">
+      <div className={`overflow-hidden transition-all duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
         <div className="flex animate-scroll">
           {/* First set of logos */}
           {logos.map((logo, index) => (

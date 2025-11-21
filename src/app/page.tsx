@@ -1,42 +1,10 @@
-"use client"
-
 import Image from "next/image"
-import Link from "next/link"
 import { Linkedin } from "lucide-react"
-import { useEffect, useState } from "react"
 
 export default function Home() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({
-        x: (e.clientX / window.innerWidth - 0.5) * 40,
-        y: (e.clientY / window.innerHeight - 0.5) * 40,
-      })
-    }
-    window.addEventListener("mousemove", handleMouseMove)
-    return () => window.removeEventListener("mousemove", handleMouseMove)
-  }, [])
 
   return (
-    <main className="min-h-screen bg-black flex flex-col items-center justify-center px-6 py-12 relative overflow-hidden">
-
-      {/* Animated Background Blobs - Interactive */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          className="blob blob-1"
-          style={{ transform: `translate(${mousePos.x * 0.8}px, ${mousePos.y * 0.8}px)` }}
-        />
-        <div
-          className="blob blob-2"
-          style={{ transform: `translate(${mousePos.x * -0.6}px, ${mousePos.y * -0.6}px)` }}
-        />
-        <div
-          className="blob blob-3"
-          style={{ transform: `translate(${mousePos.x * 0.4}px, ${mousePos.y * 0.4}px)` }}
-        />
-      </div>
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-12 relative">
 
       {/* Header */}
       <header className="absolute top-6 left-6 right-6 z-10 glass-header animate-header">
@@ -75,15 +43,15 @@ export default function Home() {
       </header>
 
       {/* Center Content - Taglines */}
-      <div className="absolute inset-0 flex flex-col items-center justify-center z-10">
-        <div className="text-center animate-fade-in-1">
+      <div className="absolute inset-0 flex flex-col items-center justify-center z-10 px-6 sm:px-8">
+        <div className="text-center animate-fade-in-1 max-w-4xl">
           <p className="text-base sm:text-lg md:text-xl text-white/50 mb-4 italic" style={{ fontFamily: 'var(--font-instrument)' }}>
             Founders, Business Owners, Consultants:
           </p>
           <p className="text-4xl sm:text-6xl md:text-7xl text-white font-medium mb-4">
             <span className="italic" style={{ fontFamily: 'var(--font-instrument)' }}>Zero</span> BS. <span className="italic" style={{ fontFamily: 'var(--font-instrument)' }}>100%</span> results.
           </p>
-          <p className="text-sm sm:text-base md:text-lg text-white/50 mb-8 max-w-2xl">
+          <p className="text-sm sm:text-base md:text-lg text-white/50 mb-8 mx-auto" style={{ maxWidth: '90%' }}>
             Digital products that actually work for your business. Websites that convert, apps that perform, stores that sell. All delivered with agency standards and freelance flexibility.
           </p>
         </div>
@@ -99,28 +67,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer */}
-      <div className="absolute bottom-6 z-10 flex items-center gap-4 animate-fade-in-2">
-        <a
-          href="mailto:contact@admarketing.cc"
-          className="text-white/30 hover:text-white/60 transition-colors text-xs"
-        >
-          contact@admarketing.cc
-        </a>
-        <span className="text-white/20">•</span>
-        <Link
-          href="/terms"
-          className="text-white/30 hover:text-white/60 transition-colors text-xs"
-        >
-          Terms & Conditions
-        </Link>
-        <span className="text-white/20">•</span>
-        <span className="text-white/30 text-xs">AD Marketing Agency LLC</span>
-        <span className="text-white/20">•</span>
-        <span className="text-white/30 text-xs">© Copyright 2026</span>
-        <span className="text-white/20">•</span>
-        <span className="text-white/30 text-xs">All Rights Reserved</span>
-      </div>
-    </main>
+    </div>
   )
 }

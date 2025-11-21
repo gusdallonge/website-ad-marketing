@@ -64,12 +64,12 @@ export default function ClientGlobe() {
   }, [isVisible])
 
   return (
-    <section ref={sectionRef} className="w-full py-12 sm:py-24">
+    <section ref={sectionRef} className="w-full pt-8 pb-2 sm:pt-8 sm:pb-4">
       <div className="w-full px-6">
         <h2 className={`text-3xl sm:text-4xl md:text-5xl text-white font-medium text-center mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           Trusted worldwide
         </h2>
-        <p className={`text-white/60 text-center text-sm sm:text-base mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.1s' }}>
+        <p className={`text-white/60 text-center text-sm sm:text-base mb-8 sm:mb-10 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.1s' }}>
           Delivering digital excellence across 11 countries
         </p>
 

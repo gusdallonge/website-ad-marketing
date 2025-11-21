@@ -15,7 +15,7 @@ const logos = [
 
 export default function BrandLogos() {
   return (
-    <section className="w-full py-8 sm:py-8 py-6">
+    <section className="w-full py-6 sm:py-12">
       <h2 className="text-center text-white/40 text-xs font-medium tracking-widest uppercase mb-4 sm:mb-6">
         Powered by Industry Leaders
       </h2>
@@ -25,15 +25,14 @@ export default function BrandLogos() {
           {logos.map((logo, index) => (
             <div
               key={`${logo.name}-1-${index}`}
-              className="flex-shrink-0 mx-4 sm:mx-6 flex items-center justify-center"
-              style={{ width: "80px", height: "35px" }}
+              className="flex-shrink-0 mx-4 sm:mx-6 flex items-center justify-center w-[80px] h-[35px] sm:w-[120px] sm:h-[50px]"
             >
               <Image
                 src={logo.src}
                 alt={logo.name}
-                width={80}
-                height={35}
-                className="max-w-full max-h-full object-contain opacity-50 sm:w-[120px] sm:h-[50px]"
+                width={120}
+                height={50}
+                className="max-w-full max-h-full object-contain opacity-50"
               />
             </div>
           ))}
@@ -41,15 +40,14 @@ export default function BrandLogos() {
           {logos.map((logo, index) => (
             <div
               key={`${logo.name}-2-${index}`}
-              className="flex-shrink-0 mx-4 sm:mx-6 flex items-center justify-center"
-              style={{ width: "80px", height: "35px" }}
+              className="flex-shrink-0 mx-4 sm:mx-6 flex items-center justify-center w-[80px] h-[35px] sm:w-[120px] sm:h-[50px]"
             >
               <Image
                 src={logo.src}
                 alt={logo.name}
-                width={80}
-                height={35}
-                className="max-w-full max-h-full object-contain opacity-50 sm:w-[120px] sm:h-[50px]"
+                width={120}
+                height={50}
+                className="max-w-full max-h-full object-contain opacity-50"
               />
             </div>
           ))}

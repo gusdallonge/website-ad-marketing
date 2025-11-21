@@ -44,9 +44,9 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="flex-1 flex flex-col">
+      <div className="min-h-[calc(100vh-120px)] flex flex-col">
         {/* Center Content - Taglines */}
-        <div className="flex-1 flex flex-col items-center justify-center px-6 sm:px-8 py-20">
+        <div className="flex-1 flex flex-col items-center justify-center px-6 sm:px-8">
           <div className="text-center animate-fade-in-1 max-w-4xl">
             <p className="text-base sm:text-lg md:text-xl text-white/50 mb-4 italic" style={{ fontFamily: 'var(--font-instrument)' }}>
               Founders, Business Owners, Consultants:

@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export default function Footer() {
   return (
-    <footer className="relative w-full px-6 pt-48 sm:pt-32 pb-6">
+    <footer className="relative w-full px-6 pt-48 sm:pt-48 pb-6">
       <div className="absolute bottom-6 left-6 right-6 glass-header z-10">
         {/* Desktop Layout */}
         <div className="hidden sm:flex items-center justify-between px-6 py-4">

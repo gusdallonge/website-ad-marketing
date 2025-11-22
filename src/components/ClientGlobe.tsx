@@ -1,41 +1,88 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import dynamic from "next/dynamic"
 
-// Centre de connexion
-const center = { x: 50, y: 50 }
-const radius = 35
+// Import dynamique pour éviter les problèmes SSR avec Three.js
+const Globe = dynamic(() => import('react-globe.gl'), { ssr: false })
 
-// Pays répartis en cercle autour du centre
-const locationNames = [
-  "New York",
-  "San Francisco",
-  "New Orleans",
-  "Toronto",
-  "Zurich",
-  "Luxembourg",
-  "Brussels",
-  "Paris",
-  "Bali",
-  "Belgrade",
-  "Zagreb",
-  "Bucharest",
-  "Dubai"
+// Hub central - Sheridan, Wyoming
+const hub = { city: "Sheridan", lat: 44.7972, lng: -106.9561, country: "USA" }
+
+// Données des villes avec coordonnées réelles
+const locations = [
+  hub,
+  { city: "New York", lat: 40.7128, lng: -74.0060, country: "USA" },
+  { city: "San Francisco", lat: 37.7749, lng: -122.4194, country: "USA" },
+  { city: "New Orleans", lat: 29.9511, lng: -90.0715, country: "USA" },
+  { city: "Toronto", lat: 43.6532, lng: -79.3832, country: "Canada" },
+  { city: "Zurich", lat: 47.3769, lng: 8.5417, country: "Switzerland" },
+  { city: "Luxembourg", lat: 49.6116, lng: 6.1319, country: "Luxembourg" },
+  { city: "Brussels", lat: 50.8503, lng: 4.3517, country: "Belgium" },
+  { city: "Paris", lat: 48.8566, lng: 2.3522, country: "France" },
+  { city: "Bali", lat: -8.3405, lng: 115.0920, country: "Indonesia" },
+  { city: "Belgrade", lat: 44.7866, lng: 20.4489, country: "Serbia" },
+  { city: "Zagreb", lat: 45.8150, lng: 15.9819, country: "Croatia" },
+  { city: "Bucharest", lat: 44.4268, lng: 26.1025, country: "Romania" },
+  { city: "Dubai", lat: 25.2048, lng: 55.2708, country: "UAE" },
 ]
 
-const locations = locationNames.map((name, i) => {
-  const angle = (i * 360 / locationNames.length) * (Math.PI / 180)
-  // Round to 2 decimal places to ensure server/client hydration match
-  return {
-    x: Math.round((center.x + radius * Math.cos(angle)) * 100) / 100,
-    y: Math.round((center.y + radius * Math.sin(angle)) * 100) / 100,
-    name
-  }
-})
+
+// Palette de couleurs pour les lignes
+const colors = [
+  '#10b981', // green
+  '#3b82f6', // blue
+  '#8b5cf6', // purple
+  '#ef4444', // red
+  '#f59e0b', // amber
+  '#ec4899', // pink
+  '#06b6d4', // cyan
+]
+
+// Créer des lignes droites entre Sheridan et toutes les autres villes avec couleurs
+const arcs = locations
+  .filter(loc => loc.city !== "Sheridan")
+  .map((loc, index) => ({
+    startLat: hub.lat,
+    startLng: hub.lng,
+    endLat: loc.lat,
+    endLng: loc.lng,
+    color: colors[index % colors.length],
+  }))
 
 export default function ClientGlobe() {
   const [isVisible, setIsVisible] = useState(false)
+  const [countries, setCountries] = useState<any>({ features: [] })
+  const [globeSize, setGlobeSize] = useState({ width: 600, height: 500 })
   const sectionRef = useRef<HTMLElement>(null)
+  const globeRef = useRef<any>(null)
+
+  // Charger les données géographiques des pays
+  useEffect(() => {
+    fetch('https://raw.githubusercontent.com/vasturiano/react-globe.gl/master/example/datasets/ne_110m_admin_0_countries.geojson')
+      .then(res => res.json())
+      .then(setCountries)
+  }, [])
+
+  // Ajuster la taille du globe selon la taille de l'écran
+  useEffect(() => {
+    const updateGlobeSize = () => {
+      if (window.innerWidth < 640) {
+        // Mobile - globe réduit
+        setGlobeSize({ width: 380, height: 380 })
+      } else if (window.innerWidth < 1024) {
+        // Tablette
+        setGlobeSize({ width: 650, height: 650 })
+      } else {
+        // Desktop - globe plus gros
+        setGlobeSize({ width: 750, height: 650 })
+      }
+    }
+
+    updateGlobeSize()
+    window.addEventListener('resize', updateGlobeSize)
+    return () => window.removeEventListener('resize', updateGlobeSize)
+  }, [])
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -63,6 +110,25 @@ export default function ClientGlobe() {
     }
   }, [isVisible])
 
+  // Configuration du globe
+  useEffect(() => {
+    if (globeRef.current && isVisible) {
+      const controls = globeRef.current.controls()
+
+      // Rotation automatique
+      controls.autoRotate = true
+      controls.autoRotateSpeed = 1
+
+      // Désactiver tous les contrôles utilisateur
+      controls.enableZoom = false
+      controls.enablePan = false
+      controls.enableRotate = false
+
+      // Point de vue initial centré sur les États-Unis
+      globeRef.current.pointOfView({ lat: 40, lng: -100, altitude: 2.5 }, 1000)
+    }
+  }, [isVisible, globeRef.current])
+
   return (
     <section ref={sectionRef} className="w-full pt-8 pb-2 sm:pt-8 sm:pb-4">
       <div className="w-full px-6">
@@ -75,150 +141,58 @@ export default function ClientGlobe() {
 
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            {/* LEFT: Animation avec lignes */}
+            {/* LEFT: Globe 3D */}
             <div className={`order-2 lg:order-1 transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '0.2s' }}>
               <div className="glass-card p-6 sm:p-8">
-                <div className="w-full h-[400px] sm:h-[500px] relative">
-                  <svg width="100%" height="100%" viewBox="0 0 100 100" className="overflow-visible">
-                    <defs>
-                      <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#10b981" stopOpacity="0.8" />
-                        <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.9" />
-                        <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.8" />
-                      </linearGradient>
-                      <filter id="glow">
-                        <feGaussianBlur stdDeviation="0.5" result="coloredBlur"/>
-                        <feMerge>
-                          <feMergeNode in="coloredBlur"/>
-                          <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                      </filter>
-                      <radialGradient id="dotGradient">
-                        <stop offset="0%" stopColor="#10b981" stopOpacity="1" />
-                        <stop offset="100%" stopColor="#059669" stopOpacity="0.8" />
-                      </radialGradient>
-                    </defs>
+                <div
+                  className="w-full relative flex items-center justify-center overflow-hidden aspect-square sm:aspect-auto sm:h-[500px]"
+                  style={{
+                    pointerEvents: 'none'
+                  }}
+                >
+                  {isVisible && (
+                    <Globe
+                      ref={globeRef}
+                      width={globeSize.width}
+                      height={globeSize.height}
+                      backgroundColor="rgba(0,0,0,0)"
 
-                    {/* Cercle de fond subtil */}
-                    <circle
-                      cx={center.x}
-                      cy={center.y}
-                      r={radius}
-                      fill="none"
-                      stroke="rgba(59, 130, 246, 0.1)"
-                      strokeWidth="0.2"
-                      className={isVisible ? "animate-dot-appear" : "opacity-0"}
+                      // Pas de texture - globe transparent
+                      showGlobe={false}
+
+                      // Grille subtile pour la structure
+                      showGraticules={true}
+
+                      // Continents avec polygones pointillés
+                      polygonsData={countries.features}
+                      polygonCapColor={() => 'rgba(255, 255, 255, 0.05)'}
+                      polygonSideColor={() => 'rgba(255, 255, 255, 0.02)'}
+                      polygonStrokeColor={() => 'rgba(255, 255, 255, 0.3)'}
+                      polygonAltitude={0.001}
+
+                      // Points pour les villes - plus visibles
+                      pointsData={locations}
+                      pointAltitude={0.02}
+                      pointColor={() => '#10b981'}
+                      pointRadius={0.7}
+
+                      // Lignes reliant les villes avec animation
+                      arcsData={arcs}
+                      arcColor={(d: any) => d.color}
+                      arcStroke={0.7}
+                      arcAltitude={0}
+                      arcCurveResolution={64}
+                      arcDashLength={0.5}
+                      arcDashGap={0.5}
+                      arcDashAnimateTime={4000}
+
+                      // Pas d'atmosphère
+                      showAtmosphere={false}
+
+                      // Contrôles
+                      enablePointerInteraction={false}
                     />
-
-                    {/* Lignes courbes animées */}
-                    {locations.map((location, i) => {
-                      // Courbe plus élégante qui passe par l'extérieur du cercle
-                      const dx = location.x - center.x
-                      const dy = location.y - center.y
-                      const dist = Math.sqrt(dx * dx + dy * dy)
-                      const controlDist = dist * 0.6
-
-                      const angle = Math.atan2(dy, dx)
-                      const perpAngle = angle + Math.PI / 2
-
-                      // Round to 2 decimal places to prevent hydration mismatch
-                      const midX = Math.round(((location.x + center.x) / 2 + Math.cos(perpAngle) * 8) * 100) / 100
-                      const midY = Math.round(((location.y + center.y) / 2 + Math.sin(perpAngle) * 8) * 100) / 100
-
-                      return (
-                        <g key={i}>
-                          {/* Ligne glow (arrière-plan) */}
-                          <path
-                            d={`M ${location.x} ${location.y} Q ${midX} ${midY}, ${center.x} ${center.y}`}
-                            stroke="url(#lineGradient)"
-                            strokeWidth="1.2"
-                            fill="none"
-                            opacity="0.3"
-                            filter="url(#glow)"
-                            className={isVisible ? "animate-path-draw" : "opacity-0"}
-                            style={{
-                              animationDelay: `${i * 0.08}s`,
-                              strokeDasharray: "100",
-                              strokeDashoffset: isVisible ? "0" : "100"
-                            }}
-                          />
-
-                          {/* Ligne principale */}
-                          <path
-                            d={`M ${location.x} ${location.y} Q ${midX} ${midY}, ${center.x} ${center.y}`}
-                            stroke="url(#lineGradient)"
-                            strokeWidth="0.6"
-                            fill="none"
-                            opacity="0.9"
-                            className={isVisible ? "animate-path-draw" : "opacity-0"}
-                            strokeLinecap="round"
-                            style={{
-                              animationDelay: `${i * 0.08}s`,
-                              strokeDasharray: "100",
-                              strokeDashoffset: isVisible ? "0" : "100"
-                            }}
-                          />
-
-                          {/* Point glow */}
-                          <circle
-                            cx={location.x}
-                            cy={location.y}
-                            r="2"
-                            fill="#10b981"
-                            opacity="0.3"
-                            filter="url(#glow)"
-                            className={isVisible ? "animate-dot-appear" : "opacity-0"}
-                            style={{ animationDelay: `${i * 0.08 + 0.3}s` }}
-                          />
-
-                          {/* Point principal */}
-                          <circle
-                            cx={location.x}
-                            cy={location.y}
-                            r="1.3"
-                            fill="url(#dotGradient)"
-                            className={isVisible ? "animate-dot-appear" : "opacity-0"}
-                            style={{ animationDelay: `${i * 0.08 + 0.3}s` }}
-                          />
-
-                          {/* Nom du pays avec fond semi-transparent */}
-                          <text
-                            x={location.x}
-                            y={location.y - 3}
-                            fill="#ffffff"
-                            fontSize="2.8"
-                            fontWeight="500"
-                            textAnchor="middle"
-                            className={isVisible ? "animate-dot-appear" : "opacity-0"}
-                            style={{
-                              animationDelay: `${i * 0.08 + 0.5}s`,
-                              textShadow: '0 0 4px rgba(0,0,0,0.8), 0 0 2px rgba(0,0,0,0.9)'
-                            }}
-                          >
-                            {location.name}
-                          </text>
-                        </g>
-                      )
-                    })}
-
-                    {/* Point central avec pulse */}
-                    <circle
-                      cx={center.x}
-                      cy={center.y}
-                      r="2.5"
-                      fill="#3b82f6"
-                      opacity="0.4"
-                      filter="url(#glow)"
-                      className={isVisible ? "animate-pulse" : "opacity-0"}
-                    />
-                    <circle
-                      cx={center.x}
-                      cy={center.y}
-                      r="1.5"
-                      fill="#60a5fa"
-                      className={isVisible ? "animate-pulse" : "opacity-0"}
-                    />
-                  </svg>
+                  )}
                 </div>
               </div>
             </div>

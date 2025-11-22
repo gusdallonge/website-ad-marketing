@@ -25,6 +25,9 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   title: "AD Marketing Agency",
   description: "Websites. Apps. E-commerce. Zero BS. 100% results.",
+  icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({

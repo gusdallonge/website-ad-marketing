@@ -1,9 +1,9 @@
 "use client"
 
-import Image from "next/image"
 import Link from "next/link"
-import { Linkedin, ArrowLeft } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { useEffect, useState } from "react"
+import Header from "@/components/Header"
 
 export default function Terms() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
@@ -38,38 +38,7 @@ export default function Terms() {
         />
       </div>
 
-      {/* Header */}
-      <header className="fixed top-6 left-6 right-6 z-50 glass-header animate-header">
-        <div className="flex items-center justify-between px-6 py-4">
-          <Link href="/">
-            <Image
-              src="/logo.svg"
-              alt="AD Marketing"
-              width={200}
-              height={40}
-              className="w-[140px] sm:w-[180px] h-auto"
-              priority
-            />
-          </Link>
-          <div className="flex items-center gap-5">
-            <a
-              href="mailto:contact@admarketing.cc"
-              className="text-white/60 hover:text-white transition-colors text-sm hidden sm:block"
-            >
-              contact@admarketing.cc
-            </a>
-            <a
-              href="https://www.linkedin.com/company/ad-marketing-agency-lcc/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group relative p-2"
-            >
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 opacity-20 group-hover:opacity-40 blur-md transition-opacity duration-300" />
-              <Linkedin size={18} strokeWidth={1.5} className="relative z-10 text-white/80 group-hover:text-white transition-colors" />
-            </a>
-          </div>
-        </div>
-      </header>
+      <Header />
 
       {/* Content */}
       <div className="relative z-10 pt-32 pb-16 px-4 sm:px-6">

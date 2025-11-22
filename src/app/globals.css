@@ -161,7 +161,7 @@ body {
 /* Mobile adjustments for blobs */
 @media (max-width: 640px) {
   .blob {
-    opacity: 0.3;
+    opacity: 0.15;
   }
 
   .blob-1 {

@@ -60,7 +60,7 @@ export default function Home() {
             <p className="text-4xl sm:text-6xl md:text-7xl text-white font-medium mb-4">
               <span className="italic" style={{ fontFamily: 'var(--font-instrument)' }}>Zero</span> BS. <span className="italic" style={{ fontFamily: 'var(--font-instrument)' }}>100%</span> results.
             </p>
-            <p className="text-sm sm:text-base md:text-lg text-white/50 mb-6 sm:mb-8 mx-auto" style={{ maxWidth: '90%' }}>
+            <p className="text-white/50 mb-6 sm:mb-8 mx-auto md:text-lg" style={{ maxWidth: '95%', fontSize: '17px' }}>
               Digital products that actually work for your business. Websites that convert, apps that perform, stores that sell. All delivered with agency standards and freelance flexibility.
             </p>
           </div>

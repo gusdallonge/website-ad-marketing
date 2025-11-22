@@ -88,11 +88,10 @@ export default function Services() {
   }, [isVisible])
 
   return (
-    <section ref={sectionRef} className="w-full py-8 sm:py-24">
+    <section ref={sectionRef} className="w-full pt-16 pb-8 sm:pt-24 sm:pb-24">
       <div className="max-w-[90rem] mx-auto px-6">
         <h2 className={`text-3xl sm:text-4xl md:text-5xl text-white font-medium text-center mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <span className="sm:hidden">Four ways to<br />win online</span>
-          <span className="hidden sm:inline">Four ways to win online</span>
+          Four ways to win online
         </h2>
 
         {/* Desktop Grid */}

@@ -110,14 +110,14 @@ export default function ClientGlobe() {
     }
   }, [isVisible])
 
-  // Configuration du globe
-  useEffect(() => {
-    if (globeRef.current && isVisible) {
+  // Callback quand le globe est prêt
+  const handleGlobeReady = () => {
+    if (globeRef.current) {
       const controls = globeRef.current.controls()
 
       // Rotation automatique
       controls.autoRotate = true
-      controls.autoRotateSpeed = 1
+      controls.autoRotateSpeed = 0.5
 
       // Désactiver tous les contrôles utilisateur
       controls.enableZoom = false
@@ -127,22 +127,22 @@ export default function ClientGlobe() {
       // Point de vue initial centré sur les États-Unis
       globeRef.current.pointOfView({ lat: 40, lng: -100, altitude: 2.5 }, 1000)
     }
-  }, [isVisible, globeRef.current])
+  }
 
   return (
     <section ref={sectionRef} className="w-full pt-8 pb-2 sm:pt-8 sm:pb-4">
       <div className="w-full px-6">
-        <h2 className={`text-3xl sm:text-4xl md:text-5xl text-white font-medium text-center mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <h2 className="text-3xl sm:text-4xl md:text-5xl text-white font-medium text-center mb-4">
           Trusted worldwide
         </h2>
-        <p className={`text-white/60 text-center text-sm sm:text-base mb-8 sm:mb-10 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} style={{ transitionDelay: '0.1s' }}>
+        <p className="text-white/60 text-center text-sm sm:text-base mb-8 sm:mb-10">
           Delivering digital excellence across 11 countries
         </p>
 
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* LEFT: Globe 3D */}
-            <div className={`order-2 lg:order-1 transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`} style={{ transitionDelay: '0.2s' }}>
+            <div className="order-2 lg:order-1">
               <div className="glass-card p-6 sm:p-8">
                 <div
                   className="w-full relative flex items-center justify-center overflow-hidden aspect-square sm:aspect-auto sm:h-[500px]"
@@ -156,6 +156,7 @@ export default function ClientGlobe() {
                       width={globeSize.width}
                       height={globeSize.height}
                       backgroundColor="rgba(0,0,0,0)"
+                      onGlobeReady={handleGlobeReady}
 
                       // Pas de texture - globe transparent
                       showGlobe={false}
@@ -188,9 +189,6 @@ export default function ClientGlobe() {
 
                       // Pas d'atmosphère
                       showAtmosphere={false}
-
-                      // Contrôles
-                      enablePointerInteraction={false}
                     />
                   )}
                 </div>
@@ -198,10 +196,10 @@ export default function ClientGlobe() {
             </div>
 
             {/* RIGHT: Stats */}
-            <div className={`order-1 lg:order-2 space-y-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`} style={{ transitionDelay: '0.3s' }}>
+            <div className="order-1 lg:order-2 space-y-6">
               <div className="glass-card p-6 sm:p-8">
                 <div className="flex items-center gap-4 mb-3">
-                  <div className="w-3 h-3 rounded-full bg-green-400 animate-pulse" />
+                  <div className="w-3 h-3 rounded-full bg-green-400" />
                   <span className="text-white/60 text-sm font-medium uppercase tracking-wider">Projects Delivered</span>
                 </div>
                 <div className="text-xl lg:text-2xl text-white font-semibold mb-2">170+</div>
@@ -212,7 +210,7 @@ export default function ClientGlobe() {
 
               <div className="glass-card p-6 sm:p-8">
                 <div className="flex items-center gap-4 mb-3">
-                  <div className="w-3 h-3 rounded-full bg-blue-400 animate-pulse" />
+                  <div className="w-3 h-3 rounded-full bg-blue-400" />
                   <span className="text-white/60 text-sm font-medium uppercase tracking-wider">Global Reach</span>
                 </div>
                 <div className="text-xl lg:text-2xl text-white font-semibold mb-2">11</div>
@@ -223,7 +221,7 @@ export default function ClientGlobe() {
 
               <div className="glass-card p-6 sm:p-8">
                 <div className="flex items-center gap-4 mb-3">
-                  <div className="w-3 h-3 rounded-full bg-purple-400 animate-pulse" />
+                  <div className="w-3 h-3 rounded-full bg-purple-400" />
                   <span className="text-white/60 text-sm font-medium uppercase tracking-wider">On-Time Delivery</span>
                 </div>
                 <div className="text-xl lg:text-2xl text-white font-semibold mb-2">100%</div>

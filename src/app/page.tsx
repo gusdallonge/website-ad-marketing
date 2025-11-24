@@ -66,10 +66,9 @@ export default function TestLight() {
       {/* Header */}
       <header className="sticky top-4 left-0 right-0 z-50 px-6 mb-4">
         <div
-          className="mx-auto max-w-full rounded-full"
+          className="mx-auto max-w-full rounded-full shadow-lg"
           style={{
-            background: 'rgba(255, 255, 255, 0.7)',
-            backdropFilter: 'blur(20px)',
+            background: 'white',
           }}
         >
           <div className="flex items-center justify-between px-6 py-4">
@@ -104,7 +103,7 @@ export default function TestLight() {
       </header>
 
       {/* Fixed Background */}
-      <div className="fixed inset-0 pointer-events-none z-0" style={{ background: '#def3ff' }} />
+      <div className="fixed inset-0 pointer-events-none z-0" style={{ background: '#f5f5f7' }} />
 
       <main className="relative z-10">
         {/* Hero Section */}
@@ -118,6 +117,7 @@ export default function TestLight() {
                 style={{
                   background: 'rgba(255, 255, 255, 0.6)',
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
                 }}
               >
                 <div className="flex items-center gap-3 mb-3">
@@ -147,6 +147,7 @@ export default function TestLight() {
                 style={{
                   background: 'rgba(255, 255, 255, 0.6)',
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
                 }}
               >
                 <div className="flex items-center gap-3 mb-3">
@@ -202,6 +203,7 @@ export default function TestLight() {
                 style={{
                   background: 'rgba(255, 255, 255, 0.6)',
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
                 }}
               >
                 <div className="flex items-center gap-3 mb-3">
@@ -248,6 +250,7 @@ export default function TestLight() {
                 style={{
                   background: 'rgba(255, 255, 255, 0.6)',
                   backdropFilter: 'blur(10px)',
+                  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
                 }}
               >
                 <div className="flex items-center gap-3 mb-3">
@@ -865,7 +868,7 @@ export default function TestLight() {
               </div>
 
               {/* Step 4 - Support (50%) */}
-              <div className="bg-white rounded-[32px] p-8 shadow-lg lg:min-h-[220px]" style={{ background: '#f4deff' }}>
+              <div className="bg-white rounded-[32px] p-8 shadow-lg lg:min-h-[220px]" style={{ background: '#d2d2f6' }}>
                 <div className="flex flex-col h-full">
                   <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-4 shadow-md">
                     <span className="text-4xl font-bold italic" style={{ color: '#9333EA', fontFamily: 'var(--font-instrument)' }}>4</span>

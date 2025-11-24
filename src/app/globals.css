@@ -6,7 +6,8 @@ body {
 }
 
 ::selection {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(2, 21, 32, 0.25);
+  color: #021520;
 }
 
 /* Logo animation */
@@ -42,6 +43,18 @@ body {
 @keyframes fade-in {
   0% { opacity: 0; }
   100% { opacity: 1; }
+}
+
+@keyframes float {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(0, -25px, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
 }
 
 .animate-logo {
@@ -191,7 +204,7 @@ body {
 }
 
 .animate-scroll {
-  animation: scroll 30s linear infinite;
+  animation: scroll 20s linear infinite;
 }
 
 /* Hide scrollbar for carousel */
@@ -280,4 +293,51 @@ body {
 .animate-star-pop {
   opacity: 0;
   animation: star-pop 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Process line animations */
+@keyframes line-grow-horizontal {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes line-grow-vertical {
+  0% {
+    transform: scaleY(0);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+.animate-line-horizontal {
+  animation: line-grow-horizontal 1.5s ease-out forwards;
+}
+
+.animate-line-vertical {
+  animation: line-grow-vertical 1s ease-out forwards;
 }
